@@ -301,11 +301,11 @@ namespace lab2
     }
 
 
-    public class PrimeNumbersClass
+    public class PrimeNumbersAlgorithm
     {
         public string nameFunc;
         public IPrime Algorithm { private get; set; }
-        public PrimeNumbersClass(string nameFunc, IPrime algorithm)
+        public PrimeNumbersAlgorithm(string nameFunc, IPrime algorithm)
         {
             this.nameFunc = nameFunc;
             Algorithm = algorithm;

@@ -11,7 +11,7 @@ namespace lab2
     class NumberStorage
     {
         private List<double> listNumbers;
-        private double[] basenumbers;
+        private double[] baseNumbers;
         private double[] arrayNumbers;
         ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
 
@@ -37,10 +37,10 @@ namespace lab2
                 arrayNumbers[i] = array[i + countBaseNumbers];
             }
 
-            this.basenumbers = SieveEratosthenes(basenumbers);
+            this.baseNumbers = SieveEratosthenes(basenumbers);
         }
 
-        private double[] SieveEratosthenes(double[] numbers)
+        private static double[] SieveEratosthenes(double[] numbers)
         {
             List<double> baseNumbers = numbers.ToList();
             for (int i = 0; i < baseNumbers.Count; i++)
@@ -61,18 +61,18 @@ namespace lab2
         }
 
 
-        public string PrintPrimeNumbers(PrimeNumbersClass algorithm, int countThreads)
+        public string PrintPrimeNumbers(PrimeNumbersAlgorithm algorithm, int countThreads)
         {
             string timeResult = "";
 
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            PrimeNumbers = algorithm.FindPrime(arrayNumbers, basenumbers, PrimeNumbers, countThreads);
+            PrimeNumbers = algorithm.FindPrime(arrayNumbers, baseNumbers, PrimeNumbers, countThreads);
 
             timer.Stop();
 
-            timeResult = "Время выполнения всех потоков: " + timer.Elapsed.ToString();
+            timeResult = algorithm.nameFunc+ ": Время выполнения всех потоков: " + timer.Elapsed.ToString();
 
             double[] resultArray = new double[PrimeNumbers.Count];
 
@@ -92,7 +92,7 @@ namespace lab2
 
             string result = "";
 
-            foreach (double number in basenumbers)
+            foreach (double number in baseNumbers)
             {
                 result += number + " ";
             }
@@ -108,7 +108,7 @@ namespace lab2
         }
 
 
-        private void GenerateFile(string path, int N)
+        private static void GenerateFile(string path, int N)
         {
             File.WriteAllText(path, "");
             string buffer = "";
@@ -127,7 +127,7 @@ namespace lab2
         }
 
 
-        private List<double> ReadFile(string path)
+        private static List<double> ReadFile(string path)
         {
             List<double> listNumbers = new List<double>();
 
