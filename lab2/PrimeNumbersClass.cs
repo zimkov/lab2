@@ -27,16 +27,23 @@ namespace lab2
                 double[] baseNumbers = (double[])threadClass[1];
                 ConcurrentDictionary<double, double> arrayNumbers = (ConcurrentDictionary<double, double>)threadClass[2];
 
+                List<double> primeNumbers = decompositionNumbers.ToList();
+
 
                 foreach (double baseN in baseNumbers)
                 {
-                    foreach (var number in arrayNumbers.Values)
-                    {
-                        if (number % baseN == 0)
+                    for (int j = primeNumbers.Count - 1; j >= 0; j--) 
+                    { 
+                        if (primeNumbers[j] % baseN == 0)
                         {
-                            arrayNumbers.TryRemove(number, out _);
+                            primeNumbers.Remove(primeNumbers[j]);
                         }
                     }
+                }
+
+                foreach (double primeN in primeNumbers)
+                {
+                    arrayNumbers.TryAdd(primeN, primeN);
                 }
 
             }
@@ -66,12 +73,8 @@ namespace lab2
         {
             List<List<double>> decompositionNumbers = CircularDecomposition(arrayNumbers, countThreads);
 
-            ConcurrentDictionary<double, double> result = PrimeNumbers;
+            ConcurrentDictionary<double, double> result = new ConcurrentDictionary<double, double>();
 
-            foreach (double number in arrayNumbers)
-            {
-                result.TryAdd(number, number);
-            }
 
             // Создаем массив потоков
             Thread[] threads = new Thread[countThreads];
@@ -85,7 +88,7 @@ namespace lab2
             // Запускаем все потоки
             for (int i = 0; i < threads.Length; i++)
             {
-                threads[i].Start(new object[] { decompositionNumbers[i].ToArray(), basenumbers, PrimeNumbers });
+                threads[i].Start(new object[] { decompositionNumbers[i].ToArray(), basenumbers, result });
             }
 
             // Ожидаем завершения всех потоков
@@ -95,7 +98,7 @@ namespace lab2
             }
 
 
-            return PrimeNumbers;
+            return result;
         }
     }
 

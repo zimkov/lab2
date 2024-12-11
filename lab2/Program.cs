@@ -138,10 +138,10 @@ namespace lab2
         static void Main(string[] args)
         {
 
-            string path = @"C:\Users\Admin\Desktop\Alexei\numbers10k.txt";
+            string path = @"C:\Users\Admin\Desktop\Alexei\numbers.txt";
             int N = 10000;
             int M = 2;
-            PrimeNumbersClass algorithm = new PrimeNumbersClass("Алгоритм3", new Algorithm3());
+            PrimeNumbersClass algorithm = new PrimeNumbersClass("Алгоритм1", new Algorithm4());
 
             GenerateFile(path, N);
             List<double> listNumbers = ReadFile(path);
