@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Concurrent;
+
 
 namespace lab2
 {
-    class NumberStorage
+    public class NumberController
     {
-        private List<double> listNumbers;
-        private double[] baseNumbers;
-        private double[] arrayNumbers;
-        ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
-
-        public NumberStorage(string path, int N) 
+        public NumberStorage CreateNumberStorage(string path, int N) 
         {
             GenerateFile(path, N);
-            listNumbers = ReadFile(path);
+            List<double> listNumbers = ReadFile(path);
             double[] array = listNumbers.ToArray();
 
             int countBaseNumbers = (int)Math.Sqrt(array.Length);
@@ -30,14 +26,16 @@ namespace lab2
             }
 
             int countN = array.Length - countBaseNumbers;
-            arrayNumbers = new double[countN];
+            double[] arrayNumbers = new double[countN];
 
             for (int i = 0; i < arrayNumbers.Length; i++)
             {
                 arrayNumbers[i] = array[i + countBaseNumbers];
             }
 
-            this.baseNumbers = SieveEratosthenes(basenumbers);
+            double[] baseNumbers = SieveEratosthenes(basenumbers);
+
+            return new NumberStorage(listNumbers, baseNumbers, arrayNumbers);
         }
 
         private static double[] SieveEratosthenes(double[] numbers)
@@ -60,10 +58,12 @@ namespace lab2
             return baseNumbers.ToArray();
         }
 
-
-        public string PrintPrimeNumbers(PrimeNumbersAlgorithm algorithm, int countThreads)
+        public string PrintPrimeNumbers(NumberStorage numberStorage, PrimeNumbersAlgorithm algorithm, int countThreads)
         {
+            ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
             string timeResult = "";
+            double[] arrayNumbers = numberStorage.GetArrayNumbers();
+            double[] baseNumbers = numberStorage.GetBaseNumbers();
 
             Stopwatch timer = new Stopwatch();
             timer.Start();
@@ -83,10 +83,10 @@ namespace lab2
                 countValue++;
             }
 
-            return ToString(resultArray, timeResult);
+            return ToString(resultArray, baseNumbers, timeResult);
         }
 
-        public string ToString(double[] resultArray, string timeResult)
+        public string ToString(double[] resultArray, double[] baseNumbers, string timeResult)
         {
             Array.Sort(resultArray);
 
@@ -106,7 +106,6 @@ namespace lab2
 
             return result;
         }
-
 
         private static void GenerateFile(string path, int N)
         {
