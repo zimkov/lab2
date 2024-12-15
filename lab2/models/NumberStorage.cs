@@ -8,7 +8,6 @@ namespace lab2
         private List<double> listNumbers;
         private double[] baseNumbers;
         private double[] arrayNumbers;
-        ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
 
         public NumberStorage(List<double> listNumbers, double[] baseNumbers, double[] arrayNumbers)
         {

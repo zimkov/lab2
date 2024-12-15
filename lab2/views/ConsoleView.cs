@@ -5,19 +5,21 @@ namespace lab2
     public class ConsoleView
     {
         public static void MainConsole(){
-            Console.WriteLine("\nДля выполнения программы введите любой символ");
+            Console.WriteLine("\nДля выполнения программы введите номер алгоритма от 1 до 4");
             Console.WriteLine("\nДля выхода введите 0");
+
             int value = Convert.ToInt32(Console.ReadLine());
+
             if(value == 0) {
                 return;
             }
-            Console.Clear();
-            Start();
-            MainConsole();
 
+            Console.Clear();
+            Start(value);
+            MainConsole();
         }
 
-        static void Start()
+        static void Start(int nAlgorithm)
         {
             Env.TraversePath().Load();
 
@@ -27,7 +29,7 @@ namespace lab2
 
             PrimeNumbersAlgorithm algorithm;
 
-            switch (Int32.Parse(Environment.GetEnvironmentVariable("Algorithm")))
+            switch (nAlgorithm)
             {
                 case 1: algorithm = new PrimeNumbersAlgorithm("Алгоритм 1", new Algorithm1()); break;
                 case 2: algorithm = new PrimeNumbersAlgorithm("Алгоритм 2", new Algorithm2()); break;
