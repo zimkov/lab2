@@ -60,10 +60,10 @@ namespace lab2
 
         public string PrintPrimeNumbers(NumberStorage numberStorage, PrimeNumbersAlgorithm algorithm, int countThreads)
         {
-            ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
-            string timeResult = "";
             double[] arrayNumbers = numberStorage.GetArrayNumbers();
             double[] baseNumbers = numberStorage.GetBaseNumbers();
+            ConcurrentDictionary<double, double> PrimeNumbers = new ConcurrentDictionary<double, double>();
+            string timeResult = "";
 
             Stopwatch timer = new Stopwatch();
             timer.Start();

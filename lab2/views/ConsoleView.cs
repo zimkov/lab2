@@ -19,7 +19,7 @@ namespace lab2
 
         static void Start()
         {
-            Env.Load("/Users/zimkov/Desktop/lab2/lab2/.env");
+            Env.TraversePath().Load();
 
             string path = Environment.GetEnvironmentVariable("pathfile");
             int N = Int32.Parse(Environment.GetEnvironmentVariable("N"));
